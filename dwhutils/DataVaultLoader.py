@@ -24,8 +24,9 @@ class DataVaultLoader:
         self.target_table = None
         self.useSingeFetch = useSingeFetch
         conf = os.getenv('ENTITY_CONFIGS')
+        p_conf = os.path.join(conf, entity_name + '.yaml')
 
-        with open(conf) as file:
+        with open(p_conf) as file:
             self.documents = yaml.full_load(file)
         self.table_type = self.documents[entity_name]['tables'][self.t_name]['table_type']
         print("Build Loader")

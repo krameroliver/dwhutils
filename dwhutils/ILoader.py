@@ -21,9 +21,9 @@ class ILoader:
                  loading_sat: str = None, schema: str = None, report_name: str = None, bi_departement=None,
                  build_hash_key: bool = False):
         load_dotenv()
-        config_file = os.getenv('DB_CONFIG')
-        kp_path = os.getenv('KEYPASS')
-        conf_r = os.getenv('ENTITY_CONFIGS')
+        self.config_file = os.getenv('DB_CONFIG')
+        self.kp_path = os.getenv('KEYPASS')
+        self.conf_r = os.getenv('ENTITY_CONFIGS')
         self.loader_type = loader_type
         self.target_connection = target_connection
         self.loading_sat = loading_sat
@@ -34,7 +34,7 @@ class ILoader:
         self.report_name = report_name
         self.bi_departement = bi_departement
         self.build_hash_key = build_hash_key
-        self.conf_r = config_file
+        #self.conf_r = config_file
 
 
     def load(self, data: pd.DataFrame):
@@ -63,7 +63,7 @@ class ILoader:
         sat_data = add_technical_col(data=data, t_name=self.loading_sat, date=self.date,
                                      entity_name=self.loading_entity, buildHashKey=self.build_hash_key)
         sat_data.drop_duplicates(inplace=True)
-        with open(self.conf_r + self.loading_entity + '.yaml') as file:
+        with open(os.path.join(self.conf_r , self.loading_entity + '.yaml')) as file:
             documents = yaml.full_load(file)
         tables = documents[self.loading_entity]['tables']
         for i in tables:

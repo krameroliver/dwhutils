@@ -5,14 +5,15 @@ import pandas as pd
 import yaml
 from dotenv import load_dotenv
 
-load_dotenv()
-db_conf = os.getenv('DB_CONFIG')
-kp_path = os.getenv('KEYPASS')
-conf_r = os.getenv('ENTITY_CONFIGS')
+
 
 
 def add_technical_col(data: pd.DataFrame, t_name: str, date: str = None, entity_name: str = None,
                       buildHashKey: bool = False):
+    load_dotenv()
+    db_conf = os.getenv('DB_CONFIG')
+    kp_path = os.getenv('KEYPASS')
+    conf_r = os.getenv('ENTITY_CONFIGS')
     conf = os.path.join(conf_r, '{entity}.yaml'.format(entity=entity_name))
     with open(conf) as file:
         documents = yaml.full_load(file)
